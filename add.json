@@ -1,0 +1,34 @@
+{
+    "anuncios": [
+        {
+            "nombre": "botas",
+            "precio": 80,
+            "venta": true,
+            "foto": "bota.jpg",
+            "tags": [
+                "lifestyle",
+                "work"
+            ]
+        },
+        {
+            "nombre": "sillas",
+            "precio": 20,
+            "venta": true,
+            "foto": "silla.jpg",
+            "tags": [
+                "work",
+                "lifestyle"
+            ]
+        },
+        {
+            "nombre": "mesa",
+            "precio": 50,
+            "venta": true,
+            "foto": "mesa.jpg",
+            "tags": [
+                "work",
+                "lifestyle"
+            ]
+        }
+    ]
+}

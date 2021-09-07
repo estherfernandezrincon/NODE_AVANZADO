@@ -12,8 +12,46 @@
   <h1>
     <%= title %>
   </h1>
-  <p>¿Qué quieres comprar o vender?
+  <p>¿Qué quieres: comprar o vender?
+
+
   </p>
+  <% anuncios.forEach(element=> { %>
+    <div class="grid-container">
+      <div class="item">
+        <%= element.nombre %>
+          <ul class="contenido">
+            <li>
+              <%= element.venta %>
+            </li>
+            <li>
+              <%= element.precio %>
+            </li>
+            <ul>
+              tags:
+              <li>
+                <%= element.tags[0] %>
+              </li>
+              <li>
+                <%= element.tags[1] %>
+              </li>
+
+
+
+
+
+
+
+
+
+
+            </ul>
+      </div>
+
+    </div>
+
+    <% }) %>
+
 </body>
 
 </html>
