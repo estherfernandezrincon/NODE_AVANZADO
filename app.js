@@ -6,10 +6,11 @@ var logger = require('morgan');
 
 
 
+
 var app = express();
 
 require('./lib/connectMongoose');
-require('./contenido/items')
+require('./models/Anuncios')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,6 +21,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+/**
+ * Rutas 
+/** */
 
 app.use('/', require('./routes/portada'));
 app.use('/users', require('./routes/users'));

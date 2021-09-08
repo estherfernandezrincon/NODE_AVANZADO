@@ -1,8 +1,10 @@
-var express = require('express');
-var router = express.Router();
-const anuncios = require('../add');
+const express = require('express');
+const router = express.Router();
 
-router.get('/', (req, res, next) => {
+const Anuncios = require('../models/Anuncios');
+
+router.get('/', async (req, res, next) => {
+    const anuncios = await Anuncios.find();
     res.json(
         anuncios
     );
