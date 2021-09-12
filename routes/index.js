@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const contenido = require('../add.json')
+const anuncio = require('../add.json')
 
 
 
@@ -11,9 +11,9 @@ router.get('/', function (req, res, next) {
   //   { nombre: "sillas", precio: 20, venta: true, foto: "silla.png", tags: ["work", "lifestyle"] },
   //   { nombre: "mesa", precio: 50, venta: true, foto: "mesa.png", tags: ["work", "lifestyle"] }
   // ]
-  console.log(contenido)
+  console.log(anuncio)
 
-  res.render('index', { title: 'Bienvenido a NodePOP', anuncios: contenido.anuncios });
+  res.render('index', { title: 'Bienvenido a NodePOP', anuncios: anuncio.anuncios });
 
 
 
