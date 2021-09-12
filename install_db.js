@@ -1,23 +1,25 @@
 "use strict";
 
-const DBconnection = require('./lib/connectMongoose');
+const dbConnection = require('./lib/connectMongoose');
 
-const allData = require('./models/Anuncios');
-const data = require('./add');
+const allData = require('./models/Anuncios.js');
+const data = require('./add.json');
 
-main().catch(err => console.log('hay un err', err));
+main().catch(err => console.log('se ha producido el siguiente error:', err));
 
 async function main() {
     await initAnuncios();
-    DBconnection.close();
+    dbConnection.close();
 }
 
 async function initAnuncios() {
     const cleanTable = await allData.deleteMany();
-    console.log(`Elimininados correctamente ${cleanTable.cleanTableCount} anuncios`);
+    console.log(`Elimininados correctamente ${cleanTable.deletedCount} anuncios`);
 
-    const newAgentes = await allData.insertMany(data.misAnuncios);
-    console.log(`Creados correctamente ${newAgentes.length} anuncios`);
+
+    const newAnuncios = await allData.insertMany(data.anuncios); //pasamos el json con su propiedad
+    console.log(`Creados correctamente ${newAnuncios.length} anuncios`);
+
 }
 
 

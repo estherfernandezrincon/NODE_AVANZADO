@@ -22,11 +22,11 @@ router.get('/', function (req, res, next) {
 
 
 
-router.get('/querystring', (req, res, next) => {
-  const articulo = req.params.articulo;
-  console.log(req.query);
-  res.send('las ' + articulo + 'ya no están disponibles')
-});
+// router.get('/querystring', (req, res, next) => {
+//   const articulo = req.params.articulo;
+//   console.log(req.query);
+//   res.send('las ' + articulo + 'ya no están disponibles')
+// });
 
 
 module.exports = router;

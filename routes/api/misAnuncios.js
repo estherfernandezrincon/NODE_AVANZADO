@@ -27,8 +27,11 @@ router.get('/:identificador', async (req, res, next) => {
         const nombre = req.query.nombre;
         const venta = req.query.venta;
         const precio = req.query.precio;
-        const skip = req.query.skip; //skip lo pasa como string siempre
-
+        const tagsQuery = req.query.tags;
+        const skip = parseInt(req.query.skip); //skip lo pasa como string siempre
+        const limit = parseInt(req.query.limit);
+        const fields = req.query.fields;
+        const sort = req.query.sort;
 
         const filtros = {} // para que si no hay filtro muestre todos los anuncios
 
@@ -36,21 +39,23 @@ router.get('/:identificador', async (req, res, next) => {
             filtros.nombre = nombre;
         }
 
-        if (venta === true) {
-            filtros.venta = true;
-        } else {
-            filtros.venta = false;
-        }
+        if (precio > 10 || precio < 50) {
+            filtros.precio = precio
 
-        if (precio <= 20) {
-            filtros.precio = anuncios[precio];
         } else {
             filtros.precio = anuncios;
         }
 
+        for (i = 0; i < tags.length; i++) {
+            const tags = tags[i];
+        } if (tagsQuery === tags) {
+            filtros.tagsQuery = tags;
+        }
+
         //devuelve anuncio por id
         const id = req.params.identificador;
-        const anuncio = await Anuncios.lista(filtros, skip);
+        const anuncio = await Anuncios.lista(filtros, skip, limit, fields, sort);
+        //const anuncio = await Anuncios.find({ nombre: nombre })
 
         res.json({ anuncios: anuncio });
 
@@ -107,7 +112,7 @@ router.put('/:id', async (req, res, next) => {
         });
 
         if (!anuncioActual) {
-            res.status(404).json({ error: "the following update cannot be procced, anuncio not found" });
+            res.status(404).json({ error: "the following update cannot be processed, because of anuncio not found" });
             return;
         }
         res.json({ anuncios: anuncioActual });
