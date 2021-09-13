@@ -8,9 +8,16 @@ const Anuncios = require('../../models/Anuncios');
 
 
 //devuelve los anuncios
-router.get('/', async (req, res, next) => {
+router.get('/:identificador', async (req, res, next) => {
     try {
-        const anuncios = await Anuncios.find();
+
+        //devuelve anuncio por id
+        const id = req.params.identificador;
+
+        //const anuncio = await Anuncios.find({ nombre: nombre })
+
+
+        const anuncios = await Anuncios.find({ _id: id });
         res.json(
             { anuncios: anuncios }
         );
@@ -20,8 +27,8 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-// obtener un anuncio
-router.get('/:identificador', async (req, res, next) => {
+// obtener los anuncios
+router.get('/', async (req, res, next) => {
     try {
         //metemos peticiones para filtrar en la busqueda
         const nombre = req.query.nombre;
@@ -30,7 +37,7 @@ router.get('/:identificador', async (req, res, next) => {
         const tagsQuery = req.query.tags;
         const skip = parseInt(req.query.skip); //skip lo pasa como string siempre
         const limit = parseInt(req.query.limit);
-        const fields = req.query.fields;
+        const select = req.query.select;
         const sort = req.query.sort;
 
         const filtros = {} // para que si no hay filtro muestre todos los anuncios
@@ -40,10 +47,10 @@ router.get('/:identificador', async (req, res, next) => {
         }
 
         if (precio > 10 || precio < 50) {
-            filtros.precio = precio
+            filtros.precio = anuncios.precio
 
         } else {
-            filtros.precio = anuncios;
+            filtros.precio = precio;
         }
 
         for (i = 0; i < tags.length; i++) {
@@ -52,18 +59,16 @@ router.get('/:identificador', async (req, res, next) => {
             filtros.tagsQuery = tags;
         }
 
-        //devuelve anuncio por id
-        const id = req.params.identificador;
-        const anuncio = await Anuncios.lista(filtros, skip, limit, fields, sort);
-        //const anuncio = await Anuncios.find({ nombre: nombre })
+        const anuncios = await Anuncios.lista(filtros, skip, limit, sort);
 
-        res.json({ anuncios: anuncio });
+        res.json({ anuncios: anuncios });
+
 
     } catch (err) {
+
         next(err);
     }
 });
-
 
 // crear un anuncio
 

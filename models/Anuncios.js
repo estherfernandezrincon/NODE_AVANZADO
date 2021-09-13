@@ -14,11 +14,11 @@ const anuncioSchema = mongoose.Schema({
 });
 
 //creamos un metodo nuevo para pasar los filtros en misAnuncios, aqui no se usa arrow function
-anuncioSchema.statics.lista = function (filtros, skip, limit, fields, sort) {
+anuncioSchema.statics.lista = function (filtros, skip, limit, select, sort) {
     const query = Anuncios.find(filtros);
     query.skip(skip);
     query.limit(limit);
-    query.fields(fields);
+    query.select(select);
     query.sort(sort);
     return query.exec();
 }

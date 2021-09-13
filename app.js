@@ -47,6 +47,7 @@ app.use(function (err, req, res, next) {
 
   if (tools.isAPIRequest(req)) {
     res.json({ error: err.message });
+
     return;
   }
 
