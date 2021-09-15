@@ -40,26 +40,45 @@ router.get('/', async (req, res, next) => {
         const select = req.query.select;
         const sort = req.query.sort;
 
+
         const filtros = {} // para que si no hay filtro muestre todos los anuncios
 
         if (nombre) {
             filtros.nombre = nombre;
         }
 
-        if (precio > 10 || precio < 50) {
-            filtros.precio = anuncios.precio
-
-        } else {
+        if (precio) {
             filtros.precio = precio;
         }
 
-        for (i = 0; i < tags.length; i++) {
-            const tags = tags[i];
-        } if (tagsQuery === tags) {
-            filtros.tagsQuery = tags;
+        if (tagsQuery) {
+            filtros.tags = tagsQuery;
         }
 
-        const anuncios = await Anuncios.lista(filtros, skip, limit, sort);
+        //hacer ruta para que muestre los tags existentes
+
+        // //menos de 50
+
+        const precioLower = precio.split('-');
+        const precioF = { $gte: precioLower[1] }
+        const misPrecios = { precio: precioF }
+
+        // if (precio === precioLower[1]) {
+
+        // }
+
+        console.log(precioF);
+
+        console.log(misPrecios);
+
+
+
+
+
+
+
+
+        const anuncios = await Anuncios.lista(filtros, skip, limit, select, sort);
 
         res.json({ anuncios: anuncios });
 

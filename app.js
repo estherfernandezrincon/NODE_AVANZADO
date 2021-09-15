@@ -27,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/misAnuncios', require('./routes/api/misAnuncios'));
 
+
 // variables globales de las vistas
 app.locals.title = 'nodePOP';
 

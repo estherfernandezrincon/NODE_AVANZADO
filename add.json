@@ -6,8 +6,8 @@
             "venta": true,
             "foto": "bota.jpg",
             "tags": [
-                "lifestyle",
-                "work"
+                "work",
+                "motor"
             ]
         },
         {
@@ -26,7 +26,6 @@
             "venta": true,
             "foto": "mesa.jpg",
             "tags": [
-                "work",
                 "lifestyle"
             ]
         }
