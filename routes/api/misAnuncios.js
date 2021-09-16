@@ -39,54 +39,60 @@ router.get('/', async (req, res, next) => {
         const limit = parseInt(req.query.limit);
         const select = req.query.select;
         const sort = req.query.sort;
+        // const precioLower = { $lte: requestedPrice[1] }
+        // const precioGreater = { $gte: requestedPrice[0] }
+        // const precioBetween = { $gte: requestedPrice[0], $lte: requestedPrice[1] }
+
+
 
 
         const filtros = {} // para que si no hay filtro muestre todos los anuncios
 
         if (nombre) {
-            filtros.nombre = nombre;
+            filtros.nombre = new RegExp('^' + nombre, "i");
+
         }
 
-        if (precio) {
-            filtros.precio = precio;
-        }
+
+        // if (precio) {
+        //     filtros.precio = precio;
+
+        // } else if (precio) {
+
+        //     const requestedPrice = precio.split('-');
+        //     if (requestedPrice[0] === '' && requestedPrice[1] !== '') {
+        //         filtros.precio = precioLower;
+
+        //     } else if
+        //         (requestedPrice[0] !== '' && requestedPrice[1] === '') {
+        //         filtros.precio = precioGreater;
+        //     } else if
+
+        //         (requestedPrice[0] !== '' && requestedPrice[1] !== '') {
+        //         filtros.precio = precioBetween;
+        //     }
+        // }
+        // console.log(requestedPrice);
+
 
         if (tagsQuery) {
             filtros.tags = tagsQuery;
         }
 
-        //hacer ruta para que muestre los tags existentes
 
+        if (venta) {
+            filtros.venta = venta;
 
-
-        const requestedPrice = precio.split('-');
-        const precioLower = { $lte: requestedPrice[1] }
-        const precioGreater = { $gte: requestedPrice[0] }
-        const precioBetween = { $gte: requestedPrice[0], $lte: requestedPrice[1] }
-
-
-
-        if (requestedPrice[0] === '' && requestedPrice[1] !== '') {
-            filtros.precio = precioLower;
-
-        } else if
-            (requestedPrice[0] !== '' && requestedPrice[1] === '') {
-            filtros.precio = precioGreater;
-        } else if
-            (requestedPrice[0] !== '' && requestedPrice[1] !== '') {
-
-            filtros.precio = precioBetween;
         }
 
 
+        //hacer ruta para que muestre los tags existentes
 
-        console.log(requestedPrice);
-        console.log(filtros.precio);
-
-
-
-
-
+        const misTags = req.query.tags;
+        if (misTags) {
+            filtros.misTags = ({ anuncios: tags })
+        }
+        console.log(misTags)
 
 
         const anuncios = await Anuncios.lista(filtros, skip, limit, select, sort);
