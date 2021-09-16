@@ -57,20 +57,31 @@ router.get('/', async (req, res, next) => {
 
         //hacer ruta para que muestre los tags existentes
 
-        // //menos de 50
 
-        const precioLower = precio.split('-');
-        const precioF = { $gte: precioLower[1] }
-        const misPrecios = { precio: precioF }
 
-        // if (precio === precioLower[1]) {
+        const requestedPrice = precio.split('-');
+        const precioLower = { $lte: requestedPrice[1] }
+        const precioGreater = { $gte: requestedPrice[0] }
+        const precioBetween = { $gte: requestedPrice[0], $lte: requestedPrice[1] }
 
-        // }
 
-        console.log(precioF);
 
-        console.log(misPrecios);
+        if (requestedPrice[0] === '' && requestedPrice[1] !== '') {
+            filtros.precio = precioLower;
 
+        } else if
+            (requestedPrice[0] !== '' && requestedPrice[1] === '') {
+            filtros.precio = precioGreater;
+        } else if
+            (requestedPrice[0] !== '' && requestedPrice[1] !== '') {
+
+            filtros.precio = precioBetween;
+        }
+
+
+
+        console.log(requestedPrice);
+        console.log(filtros.precio);
 
 
 
