@@ -39,12 +39,6 @@ router.get('/', async (req, res, next) => {
         const limit = parseInt(req.query.limit);
         const select = req.query.select;
         const sort = req.query.sort;
-        // const precioLower = { $lte: requestedPrice[1] }
-        // const precioGreater = { $gte: requestedPrice[0] }
-        // const precioBetween = { $gte: requestedPrice[0], $lte: requestedPrice[1] }
-
-
-
 
         const filtros = {} // para que si no hay filtro muestre todos los anuncios
 
@@ -53,26 +47,38 @@ router.get('/', async (req, res, next) => {
 
         }
 
+        if (precio) {
+            const requestedPrice = precio.split('-');
+            console.log(requestedPrice)
+            console.log(requestedPrice[1])
 
-        // if (precio) {
-        //     filtros.precio = precio;
 
-        // } else if (precio) {
+            filtros.precio = precio;
 
-        //     const requestedPrice = precio.split('-');
-        //     if (requestedPrice[0] === '' && requestedPrice[1] !== '') {
-        //         filtros.precio = precioLower;
+        } else if (precio) {
 
-        //     } else if
-        //         (requestedPrice[0] !== '' && requestedPrice[1] === '') {
-        //         filtros.precio = precioGreater;
-        //     } else if
 
-        //         (requestedPrice[0] !== '' && requestedPrice[1] !== '') {
-        //         filtros.precio = precioBetween;
-        //     }
-        // }
-        // console.log(requestedPrice);
+
+            if (requestedPrice[0] === '' && requestedPrice[1] !== '') {
+
+                filtros.precio = { $lte: requestedPrice[1] }
+                console.log(filtros.precio)
+
+
+            } else if
+                (requestedPrice[0] !== '' && requestedPrice[1] === '') {
+                const precioGreater = { $gte: requestedPrice[0] }
+                filtros.precio = precioGreater;
+            } else if
+
+                (requestedPrice[0] !== '' && requestedPrice[1] !== '') {
+                const precioBetween = { $gte: requestedPrice[0], $lte: requestedPrice[1] }
+                filtros.precio = precioBetween;
+
+            }
+
+        }
+
 
 
         if (tagsQuery) {
@@ -86,15 +92,6 @@ router.get('/', async (req, res, next) => {
         }
 
 
-        //hacer ruta para que muestre los tags existentes
-
-        const misTags = req.query.tags;
-        if (misTags) {
-            filtros.misTags = ({ anuncios: tags })
-        }
-        console.log(misTags)
-
-
         const anuncios = await Anuncios.lista(filtros, skip, limit, select, sort);
 
         res.json({ anuncios: anuncios });
@@ -105,6 +102,24 @@ router.get('/', async (req, res, next) => {
         next(err);
     }
 });
+
+
+//hacer ruta para que muestre los tags existentes
+
+router.get('../add', function (req, res, next) {
+    try {
+        const tags = req.body.tags;
+
+        const anuncios = await Anuncios.find({ tags })
+
+        res.json({ anuncios: tags })
+
+    } catch (err) {
+
+        next(err);
+    }
+
+})
 
 // crear un anuncio
 

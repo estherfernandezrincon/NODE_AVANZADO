@@ -26,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 /** */
 
 app.use('/api/misAnuncios', require('./routes/api/misAnuncios'));
+//app.use('/api/misAnuncios', require('./add'));
 
 
 // variables globales de las vistas
@@ -34,6 +35,7 @@ app.locals.title = 'nodePOP';
 // rutas de mi website
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
+
 
 
 // catch 404 and forward to error handler
