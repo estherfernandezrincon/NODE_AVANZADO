@@ -1,21 +1,100 @@
 "use strict";
 
 const express = require('express');
-const { deleteOne } = require('../../models/Anuncios');
 const router = express.Router();
 
 const Anuncios = require('../../models/Anuncios');
 
 
-//devuelve los anuncios
+
+router.get('/', async (req, res, next) => {
+    try {
+
+        const nombre = req.query.nombre;
+        const venta = req.query.venta;
+        const precio = req.query.precio;
+        const tagsQuery = req.query.tags;
+        const skip = parseInt(req.query.skip);
+        const limit = parseInt(req.query.limit);
+        const select = req.query.select;
+        const sort = req.query.sort;
+
+        const filtros = {}
+
+        if (nombre) {
+            filtros.nombre = new RegExp('^' + nombre, "i");
+
+        }
+
+        if (precio) {
+
+            const requestedPrice = precio.split('-');
+            filtros.precio = precio;
+            console.log(filtros.precio);
+
+
+            if (requestedPrice[0] === '' && requestedPrice[1] !== '') {
+                const precioLower = { $lte: requestedPrice[1] }
+                console.log(precioLower)
+                filtros.precio = precioLower;
+
+            } else if
+                (requestedPrice[0] !== '' && requestedPrice[1] === '') {
+                const precioGreater = { $gte: requestedPrice[0] }
+                filtros.precio = precioGreater;
+            } else if
+
+                (requestedPrice[0] !== '' && requestedPrice[1] !== '') {
+                const precioBetween = { $gte: requestedPrice[0], $lte: requestedPrice[1] }
+                filtros.precio = precioBetween;
+            }
+        }
+
+        if (tagsQuery) {
+            filtros.tags = tagsQuery;
+        }
+
+        if (venta) {
+            filtros.venta = venta;
+        }
+
+        const anuncios = await Anuncios.lista(filtros, skip, limit, select, sort);
+
+        res.json({ anuncios: anuncios });
+
+    } catch (err) {
+
+        next(err);
+    }
+});
+
+
+
+router.get('/tags', async (req, res, next) => {
+    try {
+
+        const tags = {}
+        const soloTags = []
+        const anuncios = await Anuncios.lista(tags);
+
+        for (let i = 0; i < anuncios.length; i++) {
+            soloTags.push(anuncios[i]["tags"])
+
+        }
+        res.json({ tags: soloTags });
+
+    } catch (err) {
+
+        next(err);
+    }
+
+})
+
+
 router.get('/:identificador', async (req, res, next) => {
     try {
 
-        //devuelve anuncio por id
         const id = req.params.identificador;
-
-        //const anuncio = await Anuncios.find({ nombre: nombre })
-
 
         const anuncios = await Anuncios.find({ _id: id });
         res.json(
@@ -27,107 +106,13 @@ router.get('/:identificador', async (req, res, next) => {
     }
 });
 
-// obtener los anuncios
-router.get('/', async (req, res, next) => {
-    try {
-        //metemos peticiones para filtrar en la busqueda
-        const nombre = req.query.nombre;
-        const venta = req.query.venta;
-        const precio = req.query.precio;
-        const tagsQuery = req.query.tags;
-        const skip = parseInt(req.query.skip); //skip lo pasa como string siempre
-        const limit = parseInt(req.query.limit);
-        const select = req.query.select;
-        const sort = req.query.sort;
 
-        const filtros = {} // para que si no hay filtro muestre todos los anuncios
-
-        if (nombre) {
-            filtros.nombre = new RegExp('^' + nombre, "i");
-
-        }
-
-        if (precio) {
-            const requestedPrice = precio.split('-');
-            console.log(requestedPrice)
-            console.log(requestedPrice[1])
-
-
-            filtros.precio = precio;
-
-        } else if (precio) {
-
-
-
-            if (requestedPrice[0] === '' && requestedPrice[1] !== '') {
-
-                filtros.precio = { $lte: requestedPrice[1] }
-                console.log(filtros.precio)
-
-
-            } else if
-                (requestedPrice[0] !== '' && requestedPrice[1] === '') {
-                const precioGreater = { $gte: requestedPrice[0] }
-                filtros.precio = precioGreater;
-            } else if
-
-                (requestedPrice[0] !== '' && requestedPrice[1] !== '') {
-                const precioBetween = { $gte: requestedPrice[0], $lte: requestedPrice[1] }
-                filtros.precio = precioBetween;
-
-            }
-
-        }
-
-
-
-        if (tagsQuery) {
-            filtros.tags = tagsQuery;
-        }
-
-
-        if (venta) {
-            filtros.venta = venta;
-
-        }
-
-
-        const anuncios = await Anuncios.lista(filtros, skip, limit, select, sort);
-
-        res.json({ anuncios: anuncios });
-
-
-    } catch (err) {
-
-        next(err);
-    }
-});
-
-
-//hacer ruta para que muestre los tags existentes
-
-router.get('../add', function (req, res, next) {
-    try {
-        const tags = req.body.tags;
-
-        const anuncios = await Anuncios.find({ tags })
-
-        res.json({ anuncios: tags })
-
-    } catch (err) {
-
-        next(err);
-    }
-
-})
-
-// crear un anuncio
 
 router.post('/', async (req, res, next) => {
     try {
         const anuncioData = req.body;
 
-        const anuncio = new Anuncios(anuncioData);  //le paso al constructor el nuevo anuncio
+        const anuncio = new Anuncios(anuncioData);
 
         const anuncioCreado = await anuncio.save();
         res.status(201).json({ anuncios: anuncioCreado });
@@ -137,7 +122,7 @@ router.post('/', async (req, res, next) => {
     }
 });
 
-// eliminar un anuncio
+
 
 router.delete('/:id', async (req, res, next) => {
     try {
@@ -156,7 +141,7 @@ router.delete('/:id', async (req, res, next) => {
     }
 });
 
-// actualizar un anuncio
+
 
 router.put('/:id', async (req, res, next) => {
     try {
@@ -164,7 +149,7 @@ router.put('/:id', async (req, res, next) => {
         const anuncioData = req.body;
 
         const anuncioActual = await Anuncios.findOneAndUpdate({ _id: _id }, anuncioData, {
-            new: true // para que devulva el estado actual del anuncio
+            new: true
         });
 
         if (!anuncioActual) {

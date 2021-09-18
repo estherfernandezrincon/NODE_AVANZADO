@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 /** */
 
 app.use('/api/misAnuncios', require('./routes/api/misAnuncios'));
-//app.use('/api/misAnuncios', require('./add'));
+
 
 
 // variables globales de las vistas
