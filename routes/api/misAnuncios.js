@@ -29,26 +29,32 @@ router.get('/', async (req, res, next) => {
         if (precio) {
 
             const requestedPrice = precio.split('-');
-            filtros.precio = precio;
-            console.log(filtros.precio);
-
-
-            if (requestedPrice[0] === '' && requestedPrice[1] !== '') {
-                const precioLower = { $lte: requestedPrice[1] }
-                console.log(precioLower)
-                filtros.precio = precioLower;
+            if (requestedPrice.length === 1) {
+                filtros.precio = precio;
 
             } else if
-                (requestedPrice[0] !== '' && requestedPrice[1] === '') {
-                const precioGreater = { $gte: requestedPrice[0] }
-                filtros.precio = precioGreater;
-            } else if
+                (requestedPrice.length !== 1) {
 
-                (requestedPrice[0] !== '' && requestedPrice[1] !== '') {
-                const precioBetween = { $gte: requestedPrice[0], $lte: requestedPrice[1] }
-                filtros.precio = precioBetween;
+                if (requestedPrice[0] === '' && requestedPrice[1] !== '') {
+                    const precioLower = { $lte: requestedPrice[1] }
+                    console.log(precioLower)
+                    filtros.precio = precioLower;
+
+                } else if
+                    (requestedPrice[0] !== '' && requestedPrice[1] === '') {
+                    const precioGreater = { $gte: requestedPrice[0] }
+                    filtros.precio = precioGreater;
+
+                } else if
+
+                    (requestedPrice[0] !== '' && requestedPrice[1] !== '') {
+                    const precioBetween = { $gte: requestedPrice[0], $lte: requestedPrice[1] }
+                    filtros.precio = precioBetween;
+                }
             }
+
         }
+
 
         if (tagsQuery) {
             filtros.tags = tagsQuery;
@@ -60,7 +66,17 @@ router.get('/', async (req, res, next) => {
 
         const anuncios = await Anuncios.lista(filtros, skip, limit, select, sort);
 
-        res.json({ anuncios: anuncios });
+
+        const sinAnuncios = "No hay anuncios con estos parametros";
+
+        if (anuncios.length !== 0) {
+            res.json({ anuncios: anuncios })
+
+        } else {
+
+            res.json({ anuncios: sinAnuncios });
+        }
+
 
     } catch (err) {
 

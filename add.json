@@ -27,7 +27,8 @@
             "venta": true,
             "foto": "mesa.jpg",
             "tags": [
-                "lifestyle"
+                "lifestyle",
+                "phone"
             ]
         }
     ]
