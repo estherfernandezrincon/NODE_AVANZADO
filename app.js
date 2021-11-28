@@ -22,8 +22,7 @@ app.use(express.static(path.join(__dirname, "startbootstrap-agency-gh-pages")));
 
 /**
  * Rutas de mi API
-/** */
-
+ /** */
 app.use("/api/misAnuncios", require("./routes/api/misAnuncios"));
 
 //setup i18n
@@ -37,6 +36,7 @@ app.locals.title = "nodePOP";
 app.use("/", require("./routes/index"));
 app.use("/users", require("./routes/users"));
 app.use("/contenido", require("./routes/contenido"));
+app.use("/changeLanguage", require("./routes/changeLanguage"));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

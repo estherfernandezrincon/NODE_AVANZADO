@@ -10,11 +10,12 @@ router.get("/", function (req, res, next) {
   //   { nombre: "sillas", precio: 20, venta: true, foto: "silla.png", tags: ["work", "lifestyle"] },
   //   { nombre: "mesa", precio: 50, venta: true, foto: "mesa.png", tags: ["work", "lifestyle"] }
   // ]
-  console.log(anuncio);
+  //console.log(anuncio);
 
   res.render("index", {
     title: __("Bienvenido a NodePOP"),
     header: __("Quieres comprar o vender"),
+    contenido: __("CONTENIDO"),
     anuncios: anuncio.anuncios,
   });
 });

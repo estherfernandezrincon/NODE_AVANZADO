@@ -40,10 +40,12 @@ Desde My Workspaces, seleccionamos:
 *GET Podemos usar los metodos POST y/o PUT para grabar nuevos anuncios y/o modificarlos.\
 *Podemos pasarle filtros en la url con metodo GET: nombre, tags,precio,venta
 
-Para que nuestra aplicación funcione en varios idiomas, instalamos:
+Para que nuestra aplicación funcione en varios idiomas, instalamos i18n:
 
 ```
 npm install i18n
 ```
+
+Cargamos init-db para los usuarios
 
 control C para parar la aplicación.
