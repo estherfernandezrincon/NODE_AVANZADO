@@ -1,6 +1,5 @@
 {
-	"Welcome to NodePOP": "Bienvenue à NodePOP",
-	"Do you want to buy something?": "Vous voulez achèter ou vendre?",
-	"Bienvenido a NodePOP": "Bienvenido a NodePOP",
-	"¿Qué quieres: comprar o vender?": "¿Qué quieres: comprar o vender?"
+  "Bienvenido a NodePOP": "Bienvenue à NodePOP",
+  "¿Quieres comprar o vender?": "Vous voulez achèter ou vendre?",
+  "Quieres comprar o vender": "Vous voulez achèter ou vendre?"
 }

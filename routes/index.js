@@ -14,6 +14,7 @@ router.get("/", function (req, res, next) {
 
   res.render("index", {
     title: __("Bienvenido a NodePOP"),
+    header: __("Quieres comprar o vender"),
     anuncios: anuncio.anuncios,
   });
 });
