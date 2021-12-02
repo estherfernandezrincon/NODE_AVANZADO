@@ -4,6 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const tools = require("./lib/tools");
+const LoginController = require("./controllers/loginController");
 
 var app = express();
 
@@ -22,7 +23,7 @@ app.use(express.static(path.join(__dirname, "startbootstrap-agency-gh-pages")));
 
 /**
  * Rutas de mi API
- /** */
+ ** */
 app.use("/api/misAnuncios", require("./routes/api/misAnuncios"));
 
 //setup i18n
@@ -32,11 +33,18 @@ app.use(i18n.init);
 // variables globales de las vistas
 app.locals.title = "nodePOP";
 
+const loginController = new LoginController();
+
 // rutas de mi website
 app.use("/", require("./routes/index"));
 app.use("/users", require("./routes/users"));
 app.use("/contenido", require("./routes/contenido"));
+app.get("/login", loginController.index); // en la ruta login se usa get
+app.post("/login", loginController.post);
+app.use("/privado", require("./routes/privado"));
 app.use("/changeLanguage", require("./routes/changeLanguage"));
+
+//app.use('/login'), require("./routes/login") cuando no se usan clases
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
