@@ -1,5 +1,7 @@
 "use strict";
 
+require('dotenv').config();
+
 const dbConnection = require('./lib/connectMongoose');
 
 const allData = require('./models/Anuncios.js');
