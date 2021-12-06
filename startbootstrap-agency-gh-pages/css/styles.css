@@ -73,6 +73,11 @@
   --bs-body-bg: #fff;
 }
 
+.errorCredenciales{
+  color:red;
+  font-size: bold;
+}
+
 *,
 *::before,
 *::after {

@@ -1,10 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-const anuncio = require("../add.json");
-
 router.get("/", function (req, res, next) {
-  res.render("privado", {});
+  if (!req.session.userLogado) {
+    res.redirect("/login");
+    return;
+  }
+  res.render("privado");
+
+  res.locals.privado = res.__("ya puedes subir tu anuncio");
 });
 
 module.exports = router;

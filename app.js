@@ -4,6 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const tools = require("./lib/tools");
+const session = require("express-session");
 const LoginController = require("./controllers/loginController");
 
 var app = express();
@@ -29,6 +30,19 @@ app.use("/api/misAnuncios", require("./routes/api/misAnuncios"));
 //setup i18n
 const i18n = require("./lib/i18n");
 app.use(i18n.init);
+
+//sesiones del website
+app.use(
+  session({
+    name: "nodepop-session",
+    secret: 'cV<`fx*d}J9"ysHt',
+    saveUninitialized: true,
+    resave: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 48,
+    },
+  })
+);
 
 // variables globales de las vistas
 app.locals.title = "nodePOP";
