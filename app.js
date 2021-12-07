@@ -7,6 +7,7 @@ const tools = require("./lib/tools");
 const session = require("express-session");
 const LoginController = require("./controllers/loginController");
 const sessionMiddelware = require("./lib/sessionMiddelware");
+const MongoStore = require("connect-mongo");
 
 var app = express();
 
@@ -42,6 +43,9 @@ app.use(
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 1,
     },
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_CONNECTION_STRING,
+    }),
   })
 );
 

@@ -47,7 +47,7 @@
               <% getLocales().forEach(locale =>{ %>        
                 <li class="nav-item"><a class="nav-link" href="/changeLanguage/<%= locale %>"><%=locale %></a></li>       
               <% }) %>
-                <li class="nav-item"><a class="nav-link" href="/LOGIN">LOGIN</a></li>
+               
                 <li class="nav-item"><a class="nav-link" href="contenido"><%= contenido %></a></li>
                 <% if (session.userLogado) {%>
                   <li class="nav-item"><a class="nav-link" href="privado"><%=__('Sube tu anuncio') %></a></li>

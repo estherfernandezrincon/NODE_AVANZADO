@@ -52,4 +52,10 @@ npm install i18n
 npm install bcrypt
 ```
 
+### Instalamos connect-mongo para guardar la sesion en caso se caiga la conexion
+
+```
+nom install connect-mongo
+```
+
 control C para parar la aplicación.
