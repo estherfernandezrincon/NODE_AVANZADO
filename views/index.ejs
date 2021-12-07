@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title><%  title %></title>
+        <title><%=  title %></title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
@@ -47,9 +47,15 @@
               <% getLocales().forEach(locale =>{ %>        
                 <li class="nav-item"><a class="nav-link" href="/changeLanguage/<%= locale %>"><%=locale %></a></li>       
               <% }) %>
-                <li class="nav-item"><a class="nav-link" href="contenido"><%= contenido %></a></li>
                 <li class="nav-item"><a class="nav-link" href="/LOGIN">LOGIN</a></li>
-                <li class="nav-item"><a class="nav-link" href="#LOGOUT">LOGOUT</a></li>
+                <li class="nav-item"><a class="nav-link" href="contenido"><%= contenido %></a></li>
+                <% if (session.userLogado) {%>
+                  <li class="nav-item"><a class="nav-link" href="privado"><%=__('Sube tu anuncio') %></a></li>
+                  <li class="nav-item"><a class="nav-link" href="logout">LOGOUT</a></li>
+                  
+                <% } else { %>
+                  <li class="nav-item"><a class="nav-link" href="login"><%= __('login') %></a></li>
+                <% } %>
             </ul>
         </div>
     </div>

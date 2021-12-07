@@ -9,6 +9,7 @@ router.get("/", function (req, res, next) {
     title: res.__("Bienvenido a NodePOP"),
     header: res.__("Quieres comprar o vender"),
     contenido: res.__("CONTENIDO"),
+    privado: res.__("ya puedes subir tu anuncio"),
 
     anuncios: anuncio.anuncios,
   });

@@ -1,7 +1,11 @@
 {
-  "Bienvenido a NodePOP": "Welcome to NodePOP",
-  "¿Quieres comprar o vender?": "Do you want to buy something?",
-  "CONTENIDO": "CONTENTS",
-  "Quieres comprar o vender": "Do you want to buy something?",
-  "Credenciales Incorrectas": "Invalid Credentials"
+	"Bienvenido a NodePOP": "Welcome to NodePOP",
+	"¿Quieres comprar o vender?": "Do you want to buy something?",
+	"CONTENIDO": "CONTENTS",
+	"Quieres comprar o vender": "Do you want to buy something?",
+	"Credenciales Incorrectas": "Invalid Credentials",
+	"Sube tu anuncio": "upload your advert",
+	"ya puedes subir tu anuncio": "ya puedes subir tu anuncio",
+	"logout": "logout",
+	"sube tu anuncio": "sube tu anuncio"
 }

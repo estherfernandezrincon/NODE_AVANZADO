@@ -78,6 +78,10 @@
   font-size: bold;
 }
 
+h1 {
+  color: white;
+}
+
 *,
 *::before,
 *::after {

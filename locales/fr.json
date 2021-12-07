@@ -1,6 +1,10 @@
 {
-  "Bienvenido a NodePOP": "Bienvenue à NodePOP",
-  "CONTENIDO": "CONTENU",
-  "Quieres comprar o vender": "Qu'est-ce que Vous voulez acheter ?",
-  "Credenciales Incorrectas": "Erreur de validation"
+	"Bienvenido a NodePOP": "Bienvenue à NodePOP",
+	"CONTENIDO": "CONTENU",
+	"Quieres comprar o vender": "Qu'est-ce que Vous voulez acheter ?",
+	"Credenciales Incorrectas": "Erreur de validation",
+	"Sube tu anuncio": "Chargez votre annonce",
+	"ya puedes subir tu anuncio": "ya puedes subir tu anuncio",
+	"logout": "logout",
+	"sube tu anuncio": "sube tu anuncio"
 }

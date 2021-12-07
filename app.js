@@ -6,6 +6,7 @@ var logger = require("morgan");
 const tools = require("./lib/tools");
 const session = require("express-session");
 const LoginController = require("./controllers/loginController");
+const sessionMiddelware = require("./lib/sessionMiddelware");
 
 var app = express();
 
@@ -39,10 +40,16 @@ app.use(
     saveUninitialized: true,
     resave: false,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 48,
+      maxAge: 1000 * 60 * 60 * 24 * 1,
     },
   })
 );
+
+//sesion disponible en todas las vistas
+app.use((req, res, next) => {
+  res.locals.session = req.session;
+  next();
+});
 
 // variables globales de las vistas
 app.locals.title = "nodePOP";
@@ -55,7 +62,8 @@ app.use("/users", require("./routes/users"));
 app.use("/contenido", require("./routes/contenido"));
 app.get("/login", loginController.index); // en la ruta login se usa get
 app.post("/login", loginController.post);
-app.use("/privado", require("./routes/privado"));
+app.get("/logout", loginController.logout);
+app.use("/privado", sessionMiddelware, require("./routes/privado")); // para proteger la pagina y solo pasa si está logado
 app.use("/changeLanguage", require("./routes/changeLanguage"));
 
 //app.use('/login'), require("./routes/login") cuando no se usan clases
