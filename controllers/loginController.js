@@ -62,7 +62,7 @@ class LoginController {
         { _id: myUser._id },
 
         process.env.SECRET_JWT,
-        { expiresIn: "2m" },
+        { expiresIn: "8d" },
         (err, jwtToken) => {
           if (err) {
             next(err);
@@ -70,15 +70,9 @@ class LoginController {
             return;
           }
 
-          //si el token caducado
-          if (expiresIn < time.getTime()) {
-            err.message = "token caducado";
-            console.log(err.message);
-            err.status = 404;
-          }
-
           //si todo va bien devolver el token
           res.json({ token: jwtToken });
+          return;
         }
       );
     } catch (err) {

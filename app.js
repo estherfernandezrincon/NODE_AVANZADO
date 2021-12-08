@@ -10,6 +10,17 @@ const sessionMiddelware = require("./lib/sessionMiddelware");
 const MongoStore = require("connect-mongo");
 const jwtAuth = require("./lib/jwtMiddelware");
 
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./public/images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + "-" + file.originalname);
+  },
+});
+const upload = multer({ storage });
+
 var app = express();
 
 require("./lib/connectMongoose");
@@ -23,7 +34,9 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "startbootstrap-agency-gh-pages")));
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use(upload.single("foto")); // para subir imagenes, manejar el form-data
 
 const loginController = new LoginController();
 /**

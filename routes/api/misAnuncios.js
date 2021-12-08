@@ -95,8 +95,12 @@ router.get("/:identificador", async (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
+  console.log(req.file);
   try {
-    const anuncioData = req.body;
+    const anuncioData = {
+      ...req.body,
+      foto: req.file.path,
+    };
 
     const anuncio = new Anuncios(anuncioData);
 

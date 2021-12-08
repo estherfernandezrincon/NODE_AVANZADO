@@ -58,4 +58,16 @@ npm install bcrypt
 nom install connect-mongo
 ```
 
+### instalamos jimp para reducir imagen
+
+```
+npm install --save jimp
+```
+
+### utilizamos cloudamqp
+
+```
+npm install amqplib
+```
+
 control C para parar la aplicación.
