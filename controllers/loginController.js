@@ -1,6 +1,7 @@
 "use strict";
 
 const { Usuario } = require("../models");
+const jwt = require("jsonwebtoken");
 
 class LoginController {
   index(req, res, next) {
@@ -40,6 +41,49 @@ class LoginController {
       }
       res.redirect("/");
     });
+  }
+
+  async postJWT(req, res, next) {
+    try {
+      const { email, password } = req.body;
+
+      const myUser = await Usuario.findOne({ email }); //lo busca en la BBDD
+      console.log(myUser);
+
+      if (!myUser || !(await myUser.comparePassword(password))) {
+        res.json({ error: "Credenciales Incorrectas" });
+        return;
+      }
+
+      //si usuario existe y la contraseña es correcta
+      //creamos jwt con id de usuario
+
+      jwt.sign(
+        { _id: myUser._id },
+
+        process.env.SECRET_JWT,
+        { expiresIn: "2m" },
+        (err, jwtToken) => {
+          if (err) {
+            next(err);
+
+            return;
+          }
+
+          //si el token caducado
+          if (expiresIn < time.getTime()) {
+            err.message = "token caducado";
+            console.log(err.message);
+            err.status = 404;
+          }
+
+          //si todo va bien devolver el token
+          res.json({ token: jwtToken });
+        }
+      );
+    } catch (err) {
+      next();
+    }
   }
 }
 

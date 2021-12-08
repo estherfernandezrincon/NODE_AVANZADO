@@ -8,6 +8,7 @@ const session = require("express-session");
 const LoginController = require("./controllers/loginController");
 const sessionMiddelware = require("./lib/sessionMiddelware");
 const MongoStore = require("connect-mongo");
+const jwtAuth = require("./lib/jwtMiddelware");
 
 var app = express();
 
@@ -24,10 +25,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "startbootstrap-agency-gh-pages")));
 
+const loginController = new LoginController();
 /**
  * Rutas de mi API
  ** */
-app.use("/api/misAnuncios", require("./routes/api/misAnuncios"));
+app.use("/api/misAnuncios", jwtAuth, require("./routes/api/misAnuncios"));
+app.post("/api/login", loginController.postJWT);
 
 //setup i18n
 const i18n = require("./lib/i18n");
@@ -57,8 +60,6 @@ app.use((req, res, next) => {
 
 // variables globales de las vistas
 app.locals.title = "nodePOP";
-
-const loginController = new LoginController();
 
 // rutas de mi website
 app.use("/", require("./routes/index"));
