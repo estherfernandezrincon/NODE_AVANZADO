@@ -106,7 +106,14 @@ router.post("/", async (req, res, next) => {
 
     const anuncioCreado = await anuncio.save();
     res.status(201).json({ anuncios: anuncioCreado });
-    console.log(anuncioCreado);
+
+    const imageToResize = anuncioCreado.foto;
+    async function resize() {
+      const newImage = await Jimp.read(imageToResize);
+      newImage.resize(100, 100);
+      return;
+    }
+    resize();
   } catch (err) {
     next(err);
   }

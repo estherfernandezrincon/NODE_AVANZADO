@@ -10,6 +10,8 @@ const sessionMiddelware = require("./lib/sessionMiddelware");
 const MongoStore = require("connect-mongo");
 const jwtAuth = require("./lib/jwtMiddelware");
 
+const Jimp = require("jimp");
+
 const multer = require("multer");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -19,6 +21,7 @@ const storage = multer.diskStorage({
     cb(null, file.fieldname + "-" + file.originalname);
   },
 });
+
 const upload = multer({ storage });
 
 var app = express();
@@ -44,6 +47,7 @@ const loginController = new LoginController();
  ** */
 app.use("/api/misAnuncios", jwtAuth, require("./routes/api/misAnuncios"));
 app.post("/api/login", loginController.postJWT);
+app.use("/api/misAnuncios ", Jimp, require("./routes/api/misAnuncios"));
 
 //setup i18n
 const i18n = require("./lib/i18n");
