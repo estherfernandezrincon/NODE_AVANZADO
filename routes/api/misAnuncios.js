@@ -5,6 +5,22 @@ const router = express.Router();
 
 const Anuncios = require("../../models/Anuncios");
 
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./public/images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + "-" + file.originalname);
+  },
+});
+
+const upload = multer({ storage });
+//console.log(upload);
+
+const ImageController = require("../../controllers/imageController");
+const imageController = new ImageController();
+
 router.get("/", async (req, res, next) => {
   try {
     const nombre = req.query.nombre;
@@ -94,30 +110,28 @@ router.get("/:identificador", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
-  console.log(req.file);
-  try {
-    const anuncioData = {
-      ...req.body,
-      foto: req.file.path,
-    };
+router.post(
+  "/",
+  upload.single("foto"),
+  imageController.index,
+  async (req, res, next) => {
+    //console.log(req.file);
+    //console.log(req.file.filename);
+    try {
+      const anuncioData = {
+        ...req.body,
+        foto: req.file.path,
+      };
 
-    const anuncio = new Anuncios(anuncioData);
+      const anuncio = new Anuncios(anuncioData);
 
-    const anuncioCreado = await anuncio.save();
-    res.status(201).json({ anuncios: anuncioCreado });
-
-    const imageToResize = anuncioCreado.foto;
-    async function resize() {
-      const newImage = await Jimp.read(imageToResize);
-      newImage.resize(100, 100);
-      return;
+      const anuncioCreado = await anuncio.save();
+      res.status(201).json({ anuncios: anuncioCreado });
+    } catch (err) {
+      next(err);
     }
-    resize();
-  } catch (err) {
-    next(err);
   }
-});
+);
 
 router.delete("/:id", async (req, res, next) => {
   try {

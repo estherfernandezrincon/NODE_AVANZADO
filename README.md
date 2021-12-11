@@ -64,10 +64,10 @@ nom install connect-mongo
 npm install --save jimp
 ```
 
-### utilizamos cloudamqp
+### utilizamos cote
 
 ```
-npm install amqplib
+npm i cote
 ```
 
 control C para parar la aplicación.

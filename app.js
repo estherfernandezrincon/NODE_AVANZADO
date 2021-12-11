@@ -6,23 +6,12 @@ var logger = require("morgan");
 const tools = require("./lib/tools");
 const session = require("express-session");
 const LoginController = require("./controllers/loginController");
+const ImageController = require("./controllers/imageController");
 const sessionMiddelware = require("./lib/sessionMiddelware");
 const MongoStore = require("connect-mongo");
 const jwtAuth = require("./lib/jwtMiddelware");
 
 const Jimp = require("jimp");
-
-const multer = require("multer");
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./public/images");
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.fieldname + "-" + file.originalname);
-  },
-});
-
-const upload = multer({ storage });
 
 var app = express();
 
@@ -39,15 +28,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use(upload.single("foto")); // para subir imagenes, manejar el form-data
-
 const loginController = new LoginController();
+const imageController = new ImageController();
 /**
  * Rutas de mi API
  ** */
-app.use("/api/misAnuncios", jwtAuth, require("./routes/api/misAnuncios"));
+app.use(
+  "/api/misAnuncios",
+  jwtAuth,
+
+  require("./routes/api/misAnuncios")
+);
 app.post("/api/login", loginController.postJWT);
 app.use("/api/misAnuncios ", Jimp, require("./routes/api/misAnuncios"));
+app.get("/api/misAnuncios/image", imageController.index);
 
 //setup i18n
 const i18n = require("./lib/i18n");

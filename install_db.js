@@ -39,8 +39,8 @@ async function initUsuario() {
 
   const NewUser = await Usuario.insertMany([
     {
-      email: "nodepop@pop.com",
-      password: await Usuario.hashPassword("popi"),
+      email: "node@pop.com",
+      password: await Usuario.hashPassword("pop"),
     },
     {
       email: "user@example.com",
